@@ -681,10 +681,17 @@ class MvcModel {
         if ( isset( self::$describe_cache[ $this->table ] ) ) {
             $results = self::$describe_cache[ $this->table ];
         } else {
-            $results = $this->db_adapter->get_results(
-                "DESCRIBE {$this->table_reference}"
-            );
-            self::$describe_cache[ $this->table ] = $results;
+            $cache_key = $this->table . "_schema";
+            $results = wp_cache_get( $cache_key, "wp-mvc");
+            if (!$results) {
+                $results = $this->db_adapter->get_results(
+                    "DESCRIBE {$this->table_reference}"
+                );
+                if ($results) {
+                    self::$describe_cache[ $this->table ] = $results;
+                    wp_cache_set($cache_key, $results, "wp-mvc", 3600);
+                }
+            }
         }
         
         $schema = array();

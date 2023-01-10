@@ -133,13 +133,11 @@ abstract class MvcLoader {
     }
     
     public function init() {
-
         $this->load_controllers();
         $this->load_libs();
         $this->load_models();
         $this->load_settings();
         $this->load_functions();
-    
     }
     
     public function filter_post_link($permalink, $post) {
