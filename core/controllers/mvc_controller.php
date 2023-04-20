@@ -268,10 +268,10 @@ class MvcController {
         extract($view_vars);
         $path = preg_replace('/^admin_([^\/]+)/', 'admin/$1', $path);
         $filepath = $this->file_includer->find_theme_or_view_file($path);
-        if (!$filepath) {
+        if (!file_exists($filepath)) {
             $path = preg_replace('/admin\/(?!layouts)([\w_]+)/', 'admin', $path);
             $filepath = $this->file_includer->find_theme_or_view_file($path);
-            if (!$filepath) {
+            if (!file_exists($filepath)) {
                 MvcError::warning('View "'.$path.'" not found.');
             }
         }
