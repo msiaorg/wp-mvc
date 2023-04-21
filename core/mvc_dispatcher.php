@@ -17,7 +17,7 @@ class MvcDispatcher {
         $controller->init();
         
         if (!is_callable(array($controller, $action))) {
-            MvcError::fatal('A method for the action "'.$action.'" doesn\'t exist in "'.$controller_class.'"');
+            MvcError::notfound('A method for the action "'.$action.'" doesn\'t exist in "'.$controller_class.'"');
         }
         
         $request_params = $_REQUEST;

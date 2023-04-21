@@ -14,6 +14,21 @@ class MvcError {
     public static function notice($message) {
         self::write('notice', $message);
     }
+
+    public static function notfound($message = false) {
+        global $wp_query;
+        $wp_query->set_404();
+        add_action( 'wp_title', function () {
+        return '404: Not Found';
+        }, 9999 );
+        status_header( 404 );
+        nocache_headers();
+        if ($message) {
+            echo "<!-- " . htmlspecialchars($message) . "-->";
+        }
+        require get_404_template();
+        die();
+    }
     
     private static function write($type_key, $message) {
     
