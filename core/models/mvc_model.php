@@ -682,17 +682,15 @@ class MvcModel {
             $results = self::$describe_cache[ $this->table ];
         } else {
             $cache_key = $this->table . "_schema";
-            $results = wp_cache_get( $cache_key, "wp-mvc");
-            if (!$results) {
+            $results = wp_cache_get( $cache_key, "wp-mvc", false, $found);
+            if (!$found) {
                 $results = $this->db_adapter->get_results(
                     "DESCRIBE {$this->table_reference}"
                 );
-                if ($results) {
-                    self::$describe_cache[ $this->table ] = $results;
-                    wp_cache_set($cache_key, $results, "wp-mvc", 3600);
-                }
+                wp_cache_set($cache_key, $results, "wp-mvc");
             }
-        }
+            self::$describe_cache[ $this->table ] = $results;
+       }
         
         $schema = array();
         
