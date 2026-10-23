@@ -1,5 +1,11 @@
 <?php
 
+// Each row column is stored as a real public property, which is why dynamic properties
+// are allowed. Application code relies on that: get_object_vars(), foreach, (array) casts,
+// json_encode() and property_exists() all see the columns, writes such as
+// $object->list[] = $x persist, and a NULL column is read directly rather than through
+// __get(). __get() only resolves associations and genuinely missing properties.
+#[\AllowDynamicProperties]
 class MvcModelObject {
     
     public $__model_name = null;
@@ -45,7 +51,7 @@ class MvcModelObject {
         $class = empty($this->__model_name) ? 'MvcModelObject' : $this->__model_name;
         MvcError::warning('Undefined property: '.$class.'::'.$property_name.'.');
     }
-    
+
     private function get_associated_objects($association) {
         $model_name = $association['class'];
         $model = MvcModelRegistry::get_model($model_name);
@@ -81,5 +87,3 @@ class MvcModelObject {
     }
     
 }
-
-?>

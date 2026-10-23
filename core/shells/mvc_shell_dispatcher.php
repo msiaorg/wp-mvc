@@ -1,5 +1,6 @@
 <?php
 
+#[\AllowDynamicProperties]
 class MvcShellDispatcher {
 
     function __construct($args) {
@@ -11,7 +12,7 @@ class MvcShellDispatcher {
         $this->dispatch($args);
     
     }
-    
+
     private function dispatch($args) {
     
         MvcConfiguration::set('ExecutionContext', 'shell');

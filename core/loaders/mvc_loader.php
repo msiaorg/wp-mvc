@@ -1,5 +1,6 @@
 <?php
 
+#[\AllowDynamicProperties]
 abstract class MvcLoader {
 
     protected $admin_controller_names = array();
@@ -10,6 +11,7 @@ abstract class MvcLoader {
     protected $model_names = array();
     protected $public_controller_names = array();
     protected $query_vars = array();
+    protected $settings_names = array();
 
     function __construct() {
     
@@ -31,13 +33,12 @@ abstract class MvcLoader {
         $this->dispatcher = new MvcDispatcher();
 
         $this->plugin_name = MvcObjectRegistry::get_object('plugin_name');
-        if (! isset($this->plugin_name)) {
+        if (!isset($this->plugin_name)) {
             $this->plugin_name = '';
         }
 
     }
 
-    
     protected function load_core() {
         
         $files = array(
